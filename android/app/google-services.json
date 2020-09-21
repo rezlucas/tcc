@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1032111401134",
+    "firebase_url": "https://aplicativo-tcc2.firebaseio.com",
+    "project_id": "aplicativo-tcc2",
+    "storage_bucket": "aplicativo-tcc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032111401134:android:1ccd4879dc4fc1e14f253f",
+        "android_client_info": {
+          "package_name": "com.example.tcc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032111401134-bgnp02vshtvf8padccjbeainehia61kn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tcc",
+            "certificate_hash": "c9366f378e18afd38a483f9757b6c6068566df94"
+          }
+        },
+        {
+          "client_id": "1032111401134-2o0e7jh57k7npe3ml0b0eq5jb6a2ftp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZIC6_GU5-vDavhPdtdjwqHsPmOGmESFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032111401134-2o0e7jh57k7npe3ml0b0eq5jb6a2ftp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
