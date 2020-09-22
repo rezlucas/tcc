@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
                 image: AssetImage("lib/img/Background-Registrar.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
@@ -63,7 +63,7 @@ class _RegisterState extends State<Register> {
               SizedBox(height: 20.0),
               Container(
                 child: RaisedButton(
-                    color: Color(0xFF04a090),
+                    color: Color(0xFFA5E31B),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +74,7 @@ class _RegisterState extends State<Register> {
                         ),
                         Text(
                           '  Cadastrar',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Color(0xFF533493)),
                         ),
                       ],
                     ),

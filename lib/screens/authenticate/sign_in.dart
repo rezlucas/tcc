@@ -60,7 +60,7 @@ class _SignInState extends State<SignIn> {
                 image: AssetImage("lib/img/Background-Login.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
@@ -88,7 +88,7 @@ class _SignInState extends State<SignIn> {
               SizedBox(height: 20.0),
               Container(
                 child: RaisedButton(
-                    color: Color(0xFF3EBDEB),
+                    color: Color(0xFFA5E31B),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +99,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         Text(
                           '  Logar',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Color(0xFF533493)),
                         ),
                       ],
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tcc/models/tipomodel.dart';
 import 'package:tcc/repositories/tiporepository.dart';
+import 'package:tcc/screens/cadastros/tiposform.dart';
 import 'package:tcc/screens/template.dart';
 
 class TiposPage extends StatefulWidget {
@@ -22,17 +23,21 @@ class _TiposPageState extends State<TiposPage> {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     return Template(
-      titulo: "Cadastro de Tipos",
+      titulo: "Categorias",
       body: StreamBuilder(
         stream: _tipoRepository.listarTipos(),
         builder: (context, snapshot) => !snapshot.hasData
-            ? null
+            ? Text("Carregando")
             : ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: () => {_tipoRepository.add(tipo)},
-                    child: Text("incluir dados"),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CadastrarCategoria()),
+                    ),
+                    child: Text("Incluir nova Categoria"),
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * .85,
@@ -41,7 +46,7 @@ class _TiposPageState extends State<TiposPage> {
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
                         return Card(
-                          color: Colors.grey[800],
+                          color: Color(0xFFDDDDDD),
                           child: Container(
                             padding: EdgeInsets.all(0),
                             child: Row(

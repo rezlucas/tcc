@@ -15,7 +15,7 @@ class Template extends StatelessWidget {
         appBar: AppBar(
           title: Text(titulo),
           centerTitle: true,
-          backgroundColor: Color(0xFF3EBDEB),
+          backgroundColor: Color(0xFFA5E31B),
           elevation: 0.0,
           actions: <Widget>[
             IconButton(
