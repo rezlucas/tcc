@@ -11,15 +11,15 @@ class Template extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFDDDDDD),
+        //backgroundColor: Color(0xFFDDDDDD),
         appBar: AppBar(
           title: Text(titulo),
-          backgroundColor: Color(0xFF6c68ad),
+          centerTitle: true,
+          backgroundColor: Color(0xFF3EBDEB),
           elevation: 0.0,
           actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('logout'),
+            IconButton(
+              icon: Icon(Icons.exit_to_app),
               onPressed: () async {
                 await _auth.signOut();
               },

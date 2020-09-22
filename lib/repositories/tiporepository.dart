@@ -18,6 +18,15 @@ class TipoRepository extends Disposable {
         .toList());
   }
 
+  // void limpaBase() {
+  //   var tipos = listarTipos();
+  //   tipos.forEach((element) {
+  //     element.forEach((x) {
+  //       delete(x.documentId());
+  //     });
+  //   });
+  // }
+
   @override
   void dispose() {}
 }
