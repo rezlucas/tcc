@@ -50,6 +50,8 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
 
+  bool _passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,35 +62,64 @@ class _SignInState extends State<SignIn> {
                 image: AssetImage("lib/img/Background-Login.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 90.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               TextFormField(
+                  style: TextStyle(color: Color(0xFF2B1D3D)),
                   decoration: InputDecoration(
                       hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.black),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFF76041)),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                      ),
+                      hintStyle: TextStyle(color: Color(0xFF2B1D3D)),
                       labelStyle: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFFF76041),
                       )),
                   onChanged: (val) {
                     setState(() => email = val);
                   }),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               TextFormField(
+                  style: TextStyle(color: Color(0xFF2B1D3D)),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                     hintText: 'Senha',
-                    hintStyle: TextStyle(color: Colors.black),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFF76041)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                    ),
+                    hintStyle: TextStyle(color: Color(0xFF2B1D3D)),
                   ),
-                  obscureText: true,
+                  obscureText: _passwordVisible,
                   onChanged: (val) {
                     setState(() => password = val);
                   }),
-              SizedBox(height: 20.0),
+              SizedBox(height: 5.0),
               Container(
                 child: RaisedButton(
-                    color: Color(0xFFA5E31B),
+                    color: Color(0xFFF76041),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +130,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         Text(
                           '  Logar',
-                          style: TextStyle(color: Color(0xFF533493)),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -140,7 +171,7 @@ class _SignInState extends State<SignIn> {
               //   thickness: 0.6,
               //   color: Colors.black,
               // ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 0.0),
               InkWell(
                 child: Align(
                   alignment: Alignment.topCenter,

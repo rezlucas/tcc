@@ -37,6 +37,7 @@ dependencies:
   bloc_pattern: ^2.5.1
   mobx: ^1.2.1+2
   font_awesome_flutter: ^8.8.1
+  flutter_colorpicker: ^0.3.4
 
 dev_dependencies:
   flutter_test:
@@ -90,3 +91,6 @@ flutter:
     - lib/img/Logar-Logo.png
     - lib/img/Background-Registrar.png
     - lib/img/Background-Login.pdf
+    - lib/img/Incluir-Categoria-Logo.png
+    - lib/img/Background-Form-Categoria.png
+    - lib/img/Select-Color.png

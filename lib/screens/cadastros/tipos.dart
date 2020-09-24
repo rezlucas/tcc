@@ -46,7 +46,7 @@ class _TiposPageState extends State<TiposPage> {
                       shrinkWrap: true,
                       itemBuilder: (ctx, index) {
                         return Card(
-                          color: Color(0xFFDDDDDD),
+                          color: Colors.white,
                           child: Container(
                             padding: EdgeInsets.all(0),
                             child: Row(
@@ -67,13 +67,14 @@ class _TiposPageState extends State<TiposPage> {
                                           style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.white),
+                                              color: Colors.black),
                                         ),
                                         ButtonBarTheme(
                                             data: ButtonBarThemeData(),
                                             child: ButtonBar(
                                               children: <Widget>[
                                                 FlatButton(
+                                                  // color: Colors.black45,
                                                   child: const Text('LIMPAR'),
                                                   onPressed: () => {},
                                                 ),

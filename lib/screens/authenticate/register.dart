@@ -15,6 +15,8 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password = '';
 
+  bool _passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +27,21 @@ class _RegisterState extends State<Register> {
                 image: AssetImage("lib/img/Background-Registrar.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               TextFormField(
+                  style: TextStyle(color: Color(0xFF2B1D3D)),
                   decoration: InputDecoration(
                       hintText: 'Email',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFF76041)),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                      ),
                       hintStyle: TextStyle(color: Colors.black),
                       labelStyle: TextStyle(
                         color: Colors.white,
@@ -42,28 +51,72 @@ class _RegisterState extends State<Register> {
                   }),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               TextFormField(
+                  style: TextStyle(color: Color(0xFF2B1D3D)),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                     hintText: 'Senha',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFF76041)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                    ),
                     hintStyle: TextStyle(color: Colors.black),
                   ),
-                  obscureText: true,
+                  obscureText: _passwordVisible,
                   onChanged: (val) {
                     setState(() => password = val);
                   }),
               SizedBox(height: 20.0),
               TextFormField(
+                  style: TextStyle(color: Color(0xFF2B1D3D)),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
                     hintText: 'Digite a senha novamente',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFF76041)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                    ),
                     hintStyle: TextStyle(color: Colors.black),
                   ),
-                  obscureText: true,
+                  obscureText: _passwordVisible,
                   onChanged: (val) {
                     // setState(() => password = val);
                   }),
               SizedBox(height: 20.0),
               Container(
                 child: RaisedButton(
-                    color: Color(0xFFA5E31B),
+                    color: Color(0xFFF76041),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +127,7 @@ class _RegisterState extends State<Register> {
                         ),
                         Text(
                           '  Cadastrar',
-                          style: TextStyle(color: Color(0xFF533493)),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
