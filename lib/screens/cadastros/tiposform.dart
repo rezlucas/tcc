@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tcc/models/tipomodel.dart';
+import 'package:tcc/repositories/tiporepository.dart';
 import 'package:tcc/screens/cadastros/tipos.dart';
 import 'package:tcc/screens/template.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -11,7 +13,8 @@ class CadastrarCategoria extends StatefulWidget {
 
 class _CadastrarCategoriaState extends State<CadastrarCategoria> {
   Color currentColor = Colors.limeAccent;
-
+  TipoRepository _tipoRepository = TipoRepository();
+  TextEditingController _controlerDescricao = TextEditingController();
   void changeColor(Color color) => setState(() => currentColor = color);
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
@@ -29,67 +32,82 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
                 image: AssetImage("lib/img/Background-Form-Categoria.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               TextFormField(
+                style: TextStyle(color: Color(0xFF2B1D3D)),
+                controller: _controlerDescricao,
                 decoration: InputDecoration(
                     hintText: 'Descrição',
-                    hintStyle: TextStyle(color: Colors.black),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFF76041)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF2B1D3D)),
+                    ),
+                    hintStyle: TextStyle(color: Color(0xFF2B1D3D)),
                     labelStyle: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xFFF76041),
                     )),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                        elevation: 3.0,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                titlePadding: const EdgeInsets.all(0.0),
-                                contentPadding: const EdgeInsets.all(0.0),
-                                content: SingleChildScrollView(
-                                  child: ColorPicker(
-                                    pickerColor: currentColor,
-                                    onColorChanged: changeColor,
-                                    colorPickerWidth: 300.0,
-                                    pickerAreaHeightPercent: 0.7,
-                                    enableAlpha: true,
-                                    displayThumbColor: true,
-                                    showLabel: true,
-                                    paletteType: PaletteType.hsv,
-                                    pickerAreaBorderRadius:
-                                        const BorderRadius.only(
-                                      topLeft: const Radius.circular(2.0),
-                                      topRight: const Radius.circular(2.0),
-                                    ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  RaisedButton(
+                      elevation: 3.0,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              titlePadding: const EdgeInsets.all(0.0),
+                              contentPadding: const EdgeInsets.all(0.0),
+                              content: SingleChildScrollView(
+                                child: ColorPicker(
+                                  pickerColor: currentColor,
+                                  onColorChanged: changeColor,
+                                  colorPickerWidth: 300.0,
+                                  pickerAreaHeightPercent: 0.7,
+                                  enableAlpha: true,
+                                  displayThumbColor: true,
+                                  showLabel: true,
+                                  paletteType: PaletteType.hsv,
+                                  pickerAreaBorderRadius:
+                                      const BorderRadius.only(
+                                    topLeft: const Radius.circular(2.0),
+                                    topRight: const Radius.circular(2.0),
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        child: Image.asset("lib/img/Select-Color.png"),
-                        // child: const Text('Change me'),
-                        color: currentColor,
-                        textColor: Colors.black54),
-                  ],
-                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.colorize),
+                          Text(" Escolha uma cor")
+                        ],
+                      ),
+
+                      // child: const Text('Change me'),
+                      color: currentColor,
+                      textColor: Colors.black),
+                ],
               ),
               SizedBox(height: 20.0),
               Container(
                 child: RaisedButton(
                   // color: Color(int.parse("0x" + toHex(currentColor))),
-                  color: Color(int.parse("0xFFA5E31B")),
-                  onPressed: () => {print(toHex(currentColor))},
+                  color: Color(int.parse("0xFFF76041")),
+                  onPressed: () => {salvarNoBanco()},
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +119,7 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
                       ),
                       Text(
                         '  Incluir',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Color(0xFF2B1D3D)),
                       ),
                     ],
                   ),
@@ -112,5 +130,13 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
         ),
       ),
     );
+  }
+
+  salvarNoBanco() {
+    TipoModel tipo = TipoModel();
+    tipo.descricao = _controlerDescricao.text.toString();
+    tipo.cor = toHex(currentColor);
+    _tipoRepository.add(tipo);
+    Navigator.of(context).pop();
   }
 }
