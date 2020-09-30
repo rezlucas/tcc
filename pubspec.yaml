@@ -38,6 +38,7 @@ dependencies:
   mobx: ^1.2.1+2
   font_awesome_flutter: ^8.8.1
   flutter_colorpicker: ^0.3.4
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
@@ -69,12 +70,19 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Woom
+      fonts:
+        - asset: fonts/Woom-Bold.otf
+        - asset: fonts/Woom-Regular.otf
+          style: italic
+    - family: XPLOR
+      fonts:
+        - asset: fonts/XPLOR-Bold-Regular.otf
+    - family: Dosis
+      fonts:
+        - asset: fonts/Dosis-Regular.ttf
+        - asset: fonts/Dosis-Bold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -93,5 +101,6 @@ flutter:
     - lib/img/Background-Login.pdf
     - lib/img/Incluir-Categoria-Logo.png
     - lib/img/Background-Form-Categoria.png
+    - lib/img/Background-Form-Conta.png
     - lib/img/Select-Color.png
     - lib/img/background-full.png

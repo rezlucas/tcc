@@ -15,7 +15,6 @@ class TiposPage extends StatefulWidget {
 
 class _TiposPageState extends State<TiposPage> {
   TipoRepository _tipoRepository = TipoRepository();
-  TipoModel tipo = TipoModel.parametrizado("descrição-teste", "cor-teste");
 
   // var tipos = _tipoRepository.listarTipos();
 
@@ -43,7 +42,8 @@ class _TiposPageState extends State<TiposPage> {
                   scrollDirection: Axis.vertical,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
                       height: MediaQuery.of(context).size.height * .85,
                       child: ListView.builder(
                         itemCount: snapshot.data.length,
@@ -54,43 +54,29 @@ class _TiposPageState extends State<TiposPage> {
                             child: Container(
                               padding: EdgeInsets.all(0),
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
+                                    alignment: Alignment.center,
                                     width:
                                         MediaQuery.of(context).size.width * .7,
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            (snapshot.data[index] as TipoModel)
-                                                .descricao,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 23,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFF2B1D3D)),
-                                          ),
-                                          ButtonBarTheme(
-                                              data: ButtonBarThemeData(),
-                                              child: ButtonBar(
-                                                children: <Widget>[
-                                                  FlatButton(
-                                                    // color: Colors.black45,
-                                                    child: const Text('LIMPAR'),
-                                                    onPressed: () => {},
-                                                  ),
-                                                ],
-                                              ))
-                                        ]),
+                                    // height: 91,
+                                    child: Text(
+                                      (snapshot.data[index] as TipoModel)
+                                          .descricao,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "Dosis",
+                                          // fontWeight: FontWeight.bold,
+                                          color: Color(0xFF2B1D3D)),
+                                    ),
                                   ),
                                   Container(
-                                    height: 110,
-                                    width: 109.5,
+                                    height: 80,
+                                    width: 69.5,
                                     color: Color(int.parse("0x" +
                                         (snapshot.data[index] as TipoModel)
                                             .cor)),
