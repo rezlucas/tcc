@@ -19,6 +19,10 @@ class OperacaoRepository extends Disposable {
         .toList());
   }
 
+  Future<OperacaoModel> findById(String documentId) async {
+    var documento = await _collection.document(documentId).get();
+    return OperacaoModel.fromMap(documento);
+  }
   // void limpaBase() {
   //   var tipos = listarContas();
   //   tipos.forEach((element) {

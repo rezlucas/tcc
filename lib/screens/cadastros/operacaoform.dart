@@ -2,8 +2,10 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:tcc/models/contamodel.dart';
 import 'package:tcc/models/operacaomodel.dart';
+import 'package:tcc/models/tipomodel.dart';
 import 'package:tcc/repositories/contarepository.dart';
 import 'package:tcc/repositories/operacaorepository.dart';
+import 'package:tcc/repositories/tiporepository.dart';
 import 'package:tcc/screens/cadastros/operacao.dart';
 import 'package:tcc/screens/template.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -21,7 +23,10 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   TextEditingController _controlerSaldo = TextEditingController();
   void changeColor(Color color) => setState(() => currentColor = color);
   ContaRepository conta = ContaRepository();
+  TipoRepository tipo = TipoRepository();
   ContaModel contaSelecionada;
+  TipoModel categoriaSelecionada;
+  String tipoOperacao;
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
@@ -38,7 +43,7 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                 image: AssetImage("lib/img/Background-Form-Conta.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 80.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
@@ -85,6 +90,48 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
+                        "Selecione um tipo de operação:",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      DropdownButton<String>(
+                        value: tipoOperacao,
+                        focusColor: Colors.blue,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconEnabledColor: Color(0xFF2B1D3D),
+                        iconSize: 24,
+                        elevation: 16,
+                        dropdownColor: Color(0xFF2B1D3D),
+                        style: TextStyle(color: Color(0xFFF76041)),
+                        underline: Container(
+                          height: 1,
+                          color: Color(0xFFF76041),
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            tipoOperacao = newValue;
+                          });
+                        },
+                        items: <String>['Receita', 'Despesa']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
                         "Selecione uma conta:",
                         style: TextStyle(color: Colors.black),
                       ),
@@ -110,6 +157,57 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                                   onChanged: (ContaModel newValue) {
                                     setState(() {
                                       contaSelecionada = newValue;
+                                    });
+                                  },
+                                  items: snapshot.data
+                                      .map<DropdownMenuItem<ContaModel>>(
+                                          (ContaModel item) {
+                                    return DropdownMenuItem<ContaModel>(
+                                      child: Text(item.descricao),
+                                      value: item,
+                                    );
+                                  }).toList(),
+                                );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 25.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Selecione uma categoria:",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      StreamBuilder(
+                        stream: tipo.listarTipos(),
+                        builder: (context, snapshot) {
+                          return !snapshot.hasData
+                              ? Text("Carregando")
+                              : DropdownButton<TipoModel>(
+                                  isDense: true,
+                                  value: categoriaSelecionada,
+                                  focusColor: Colors.blue,
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconEnabledColor: Color(0xFF2B1D3D),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  dropdownColor: Color(0xFF2B1D3D),
+                                  style: TextStyle(color: Color(0xFFF76041)),
+                                  underline: Container(
+                                    height: 1,
+                                    color: Color(0xFFF76041),
+                                  ),
+                                  onChanged: (TipoModel newValue) {
+                                    setState(() {
+                                      categoriaSelecionada = newValue;
                                       // dropdownValue = newValue;
                                       // var newDatabase = DatabaseModel();
                                       // newDatabase.host = "NOVO2";
@@ -124,9 +222,9 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                                     });
                                   },
                                   items: snapshot.data
-                                      .map<DropdownMenuItem<ContaModel>>(
-                                          (ContaModel item) {
-                                    return DropdownMenuItem<ContaModel>(
+                                      .map<DropdownMenuItem<TipoModel>>(
+                                          (TipoModel item) {
+                                    return DropdownMenuItem<TipoModel>(
                                       child: Text(item.descricao),
                                       value: item,
                                     );
@@ -171,7 +269,9 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   salvarNoBanco() {
     OperacaoModel operacao = OperacaoModel();
     operacao.descricao = _controlerDescricao.text.toString();
-    operacao.cor = toHex(currentColor);
+    operacao.tipoOperacao = tipoOperacao;
+    operacao.conta = contaSelecionada.documentId();
+    operacao.categoria = categoriaSelecionada.documentId();
     operacao.saldoInicial = double.parse(_controlerSaldo.text.toString());
     _operacaoRepository.add(operacao);
     Navigator.of(context).pop();

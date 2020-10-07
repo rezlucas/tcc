@@ -80,33 +80,33 @@ class _OperacaoPageState extends State<OperacaoPage> {
                                               color: Color(0xFF2B1D3D)),
                                         ),
                                       ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        height: 130,
-                                        width: 148.3,
-                                        color: Color(
-                                            int.parse("0x" + operacao.cor)),
-                                        child: Text(
-                                          'R\$ ${formatarDinheiro(operacao.saldoInicial)}',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 30 -
-                                                operacao.saldoInicial
-                                                    .toString()
-                                                    .length
-                                                    .toDouble(),
-                                            fontFamily: "Dosis",
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(int.parse("0xFF" +
-                                                (int.parse("0x" +
-                                                            operacao.cor) ^
-                                                        0xFFFFFFFF)
-                                                    .toRadixString(16)
-                                                    .padLeft(6, "0"))),
-                                          ),
-                                        ),
-                                      )
+                                      // Container(
+                                      //   alignment: Alignment.center,
+                                      //   height: 130,
+                                      //   width: 148.3,
+                                      //   color: Color(
+                                      //       int.parse("0x" + operacao.cor)),
+                                      //   child: Text(
+                                      //     'R\$ ${formatarDinheiro(operacao.saldoInicial)}',
+                                      //     maxLines: 2,
+                                      //     overflow: TextOverflow.ellipsis,
+                                      //     style: TextStyle(
+                                      //       fontSize: 30 -
+                                      //           operacao.saldoInicial
+                                      //               .toString()
+                                      //               .length
+                                      //               .toDouble(),
+                                      //       fontFamily: "Dosis",
+                                      //       fontWeight: FontWeight.bold,
+                                      //       color: Color(int.parse("0xFF" +
+                                      //           (int.parse("0x" +
+                                      //                       operacao.cor) ^
+                                      //                   0xFFFFFFFF)
+                                      //               .toRadixString(16)
+                                      //               .padLeft(6, "0"))),
+                                      //     ),
+                                      //   ),
+                                      // )
                                     ],
                                   ),
                                 ),

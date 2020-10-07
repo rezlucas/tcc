@@ -18,6 +18,10 @@ class TipoRepository extends Disposable {
         .toList());
   }
 
+  Future<TipoModel> findById(String documentId) async {
+    var documento = await _collection.document(documentId).get();
+    return TipoModel.fromMap(documento);
+  }
   // void limpaBase() {
   //   var tipos = listarTipos();
   //   tipos.forEach((element) {

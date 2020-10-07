@@ -15,6 +15,11 @@ class TipoModel extends BaseModel {
     this.cor = document.data["cor"];
   }
 
+  @override
+  bool operator ==(Object segunda) {
+    return segunda is TipoModel && documentId() == segunda.documentId();
+  }
+
   String get getDescricao => this.descricao;
   String get getCor => this.cor;
 
@@ -29,4 +34,8 @@ class TipoModel extends BaseModel {
 
   @override
   String documentId() => _documentId;
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }
