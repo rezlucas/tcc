@@ -40,7 +40,7 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("lib/img/Background-Form-Conta.png"),
+                image: AssetImage("lib/img/Background-Form-Operacao.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
         padding: EdgeInsets.symmetric(vertical: 80.0, horizontal: 50.0),
