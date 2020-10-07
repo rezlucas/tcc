@@ -62,7 +62,7 @@ class _SignInState extends State<SignIn> {
                 image: AssetImage("lib/img/Background-Login.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 90.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 83.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
