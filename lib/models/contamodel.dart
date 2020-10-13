@@ -38,4 +38,8 @@ class ContaModel extends BaseModel {
 
   @override
   String documentId() => _documentId;
+
+  @override
+  // TODO: implement hashCode
+  int get hashCode => super.hashCode;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:tcc/models/tipomodel.dart';
 import 'package:tcc/repositories/tiporepository.dart';
 import 'package:tcc/screens/cadastros/tipos.dart';
@@ -16,6 +17,18 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
   TipoRepository _tipoRepository = TipoRepository();
   TextEditingController _controlerDescricao = TextEditingController();
   void changeColor(Color color) => setState(() => currentColor = color);
+  Icon _icon = Icon(IconData(58430, fontFamily: "MaterialIcons"));
+  _pickIcon() async {
+    debugPrint(_icon.icon.codePoint.toString());
+    debugPrint(_icon.icon.fontFamily);
+    IconData icon = await FlutterIconPicker.showIconPicker(context,
+        iconPackMode: IconPack.cupertino);
+
+    _icon = Icon(icon);
+    setState(() {});
+
+    debugPrint('Picked Icon:  $icon');
+  }
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
@@ -59,47 +72,19 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RaisedButton(
+                      color: Color(0xFFF76041),
                       elevation: 3.0,
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              titlePadding: const EdgeInsets.all(0.0),
-                              contentPadding: const EdgeInsets.all(0.0),
-                              content: SingleChildScrollView(
-                                child: ColorPicker(
-                                  pickerColor: currentColor,
-                                  onColorChanged: changeColor,
-                                  colorPickerWidth: 300.0,
-                                  pickerAreaHeightPercent: 0.7,
-                                  enableAlpha: true,
-                                  displayThumbColor: true,
-                                  showLabel: true,
-                                  paletteType: PaletteType.hsv,
-                                  pickerAreaBorderRadius:
-                                      const BorderRadius.only(
-                                    topLeft: const Radius.circular(2.0),
-                                    topRight: const Radius.circular(2.0),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                        _pickIcon();
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.colorize),
-                          Text(" Escolha uma cor")
-                        ],
+                        children: [_icon, Text(" Escolha um icone")],
                       ),
 
                       // child: const Text('Change me'),
-                      color: currentColor,
-                      textColor: Colors.black),
+                      textColor: Color(0xFF2B1D3D)),
                 ],
               ),
               SizedBox(height: 20.0),

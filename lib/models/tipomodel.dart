@@ -4,15 +4,17 @@ import 'package:tcc/models/basemodel.dart';
 class TipoModel extends BaseModel {
   String _documentId;
   String descricao;
-  String cor;
+  int idIcon;
+  String fontfamilyIcon;
 
   TipoModel();
-  TipoModel.parametrizado(this.descricao, this.cor);
+  TipoModel.parametrizado(this.descricao, this.idIcon, this.fontfamilyIcon);
   TipoModel.fromMap(DocumentSnapshot document) {
     _documentId = document.documentID;
 
     this.descricao = document.data["descricao"];
-    this.cor = document.data["cor"];
+    this.idIcon = document.data["idIcon"];
+    this.fontfamilyIcon = document.data["fontfamilyIcon"];
   }
 
   @override
@@ -21,13 +23,15 @@ class TipoModel extends BaseModel {
   }
 
   String get getDescricao => this.descricao;
-  String get getCor => this.cor;
+  int get getIdIcon => this.idIcon;
+  String get getfontfamilyIcon => this.fontfamilyIcon;
 
   @override
   toMap() {
     var map = new Map<String, dynamic>();
     map['descricao'] = this.descricao;
-    map['cor'] = this.cor;
+    map['idIcon'] = this.idIcon;
+    map['fontfamily'] = this.fontfamilyIcon;
 
     return map;
   }

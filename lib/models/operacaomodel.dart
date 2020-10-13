@@ -10,6 +10,8 @@ class OperacaoModel extends BaseModel {
   String conta;
   String categoria;
   String tipoOperacao;
+  String data;
+  String hora;
 
   OperacaoModel();
   OperacaoModel.parametrizado(
@@ -22,12 +24,16 @@ class OperacaoModel extends BaseModel {
     this.conta = document.data["conta"];
     this.categoria = document.data["categoria"];
     this.tipoOperacao = document.data["tipoOperacao"];
+    this.data = document.data["data"];
+    this.hora = document.data["hora"];
   }
 
   String get getDescricao => this.descricao;
   String get getConta => this.conta;
   String get getCategoria => this.categoria;
   String get getTipoOperacao => this.tipoOperacao;
+  String get getData => this.data;
+  String get getHora => this.hora;
 
   @override
   toMap() {
@@ -37,6 +43,8 @@ class OperacaoModel extends BaseModel {
     map['conta'] = this.conta;
     map['contegoria'] = this.categoria;
     map['tipoOperacao'] = this.tipoOperacao;
+    map['data'] = this.data;
+    map['hora'] = this.hora;
 
     return map;
   }

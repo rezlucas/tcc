@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tcc/models/contamodel.dart';
 import 'package:tcc/models/operacaomodel.dart';
 import 'package:tcc/models/tipomodel.dart';
@@ -27,6 +28,9 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   ContaModel contaSelecionada;
   TipoModel categoriaSelecionada;
   String tipoOperacao;
+  DateTime _dateTime;
+  final f = new DateFormat('dd/MM/yyyy');
+  TimeOfDay _time;
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
@@ -43,7 +47,7 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                 image: AssetImage("lib/img/Background-Form-Operacao.png"),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover)),
-        padding: EdgeInsets.symmetric(vertical: 80.0, horizontal: 50.0),
+        padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
         child: Form(
           child: ListView(
             children: <Widget>[
@@ -81,7 +85,46 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                       color: Color(0xFFF76041),
                     )),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              SizedBox(height: 10.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DropdownButton<String>(
+                    hint: Text(
+                      "Operação",
+                      style: TextStyle(color: Color(0xFF2B1D3D)),
+                    ),
+                    value: tipoOperacao,
+                    focusColor: Colors.blue,
+                    icon: Icon(Icons.arrow_drop_down),
+                    isExpanded: true,
+                    iconEnabledColor: Color(0xFF2B1D3D),
+                    iconSize: 24,
+                    elevation: 16,
+                    dropdownColor: Color(0xFF2B1D3D),
+                    style: TextStyle(color: Color(0xFFF76041), fontSize: 16),
+                    underline: Container(
+                      height: 1,
+                      color: Color(0xFFF76041),
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        tipoOperacao = newValue;
+                      });
+                    },
+                    items: <String>['Receita', 'Despesa']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,40 +133,127 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Selecione um tipo de operação:",
+                        "Selecione uma data:",
                         style: TextStyle(color: Colors.black),
                       ),
-                      DropdownButton<String>(
-                        value: tipoOperacao,
-                        focusColor: Colors.blue,
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconEnabledColor: Color(0xFF2B1D3D),
-                        iconSize: 24,
-                        elevation: 16,
-                        dropdownColor: Color(0xFF2B1D3D),
-                        style: TextStyle(color: Color(0xFFF76041)),
-                        underline: Container(
-                          height: 1,
-                          color: Color(0xFFF76041),
-                        ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            tipoOperacao = newValue;
+                      GestureDetector(
+                        onTap: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: _dateTime == null
+                                      ? DateTime.now()
+                                      : _dateTime,
+                                  firstDate: DateTime(2001),
+                                  lastDate: DateTime(2021))
+                              .then((date) {
+                            setState(() {
+                              _dateTime = date;
+                            });
                           });
                         },
-                        items: <String>['Receita', 'Despesa']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                  width: 1.0, color: Color(0xFFF76041)),
+                            ),
+                          ),
+                          child: Text(
+                              _dateTime == null ? "" : f.format(_dateTime),
+                              style: TextStyle(color: Colors.red),
+                              textAlign: TextAlign.center),
+                        ),
+                      )
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: 20.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Selecione uma hora:",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showTimePicker(
+                            context: context,
+                            initialTime:
+                                _time == null ? TimeOfDay.now() : _time,
+                          ).then((time) {
+                            setState(() {
+                              _time = time;
+                            });
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                  width: 1.0, color: Color(0xFFF76041)),
+                            ),
+                          ),
+                          child: Text(
+                              _time == null ? "" : _time.format(context),
+                              style: TextStyle(color: Colors.red),
+                              textAlign: TextAlign.center),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   // crossAxisAlignment: CrossAxisAlignment.center,
+              //   crossAxisAlignment: CrossAxisAlignment.stretch,
+              //   children: [
+              //     StreamBuilder(
+              //       stream: conta.listarContas(),
+              //       builder: (context, snapshot) {
+              //         return !snapshot.hasData
+              //             ? Text("Carregando")
+              //             : DropdownButton<ContaModel>(
+              //                 isDense: true,
+              //                 value: contaSelecionada,
+              //                 focusColor: Colors.blue,
+              //                 icon: Icon(Icons.arrow_drop_down),
+              //                 iconEnabledColor: Color(0xFF2B1D3D),
+              //                 iconSize: 24,
+              //                 elevation: 16,
+              //                 dropdownColor: Color(0xFF2B1D3D),
+              //                 style: TextStyle(color: Color(0xFFF76041)),
+              //                 underline: Container(
+              //                   height: 1,
+              //                   color: Color(0xFFF76041),
+              //                 ),
+              //                 onChanged: (ContaModel newValue) {
+              //                   setState(() {
+              //                     contaSelecionada = newValue;
+              //                   });
+              //                 },
+              //                 items: snapshot.data
+              //                     .map<DropdownMenuItem<ContaModel>>(
+              //                         (ContaModel item) {
+              //                   return DropdownMenuItem<ContaModel>(
+              //                     child: Text(item.descricao),
+              //                     value: item,
+              //                   );
+              //                 }).toList(),
+              //               );
+              //       },
+              //     ),
+              //   ],
+              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -268,6 +398,8 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
 
   salvarNoBanco() {
     OperacaoModel operacao = OperacaoModel();
+    operacao.data = f.format(_dateTime);
+    operacao.hora = _time.format(context);
     operacao.descricao = _controlerDescricao.text.toString();
     operacao.tipoOperacao = tipoOperacao;
     operacao.conta = contaSelecionada.documentId();

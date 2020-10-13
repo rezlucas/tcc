@@ -39,6 +39,7 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   flutter_colorpicker: ^0.3.4
   intl: ^0.16.1
+  flutter_iconpicker: ^2.1.5
 
 dev_dependencies:
   flutter_test:
@@ -100,9 +101,14 @@ flutter:
     - lib/img/Background-Registrar.png
     - lib/img/Background-Login.pdf
     - lib/img/Incluir-Categoria-Logo.png
+    - lib/img/Background-Home.png
     - lib/img/Background-Form-Categoria.png
     - lib/img/Background-Form-Conta.png
     - lib/img/Background-Form-Operacao.png
     - lib/img/Select-Color.png
     - lib/img/background-full.png
+    - lib/img/Card-Cartao.png
+    - lib/img/Card-Categoria.png
+    - lib/img/Card-Conta.png
+    - lib/img/Card-Operacao.png
 

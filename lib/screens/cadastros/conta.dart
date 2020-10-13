@@ -53,6 +53,8 @@ class _ContaPageState extends State<ContaPage> {
                             itemBuilder: (ctx, index) {
                               var conta = (snapshot.data[index] as ContaModel);
                               return Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18)),
                                 color: Color(0xFFFFFFFF),
                                 child: Container(
                                   padding: EdgeInsets.all(0),
@@ -80,10 +82,15 @@ class _ContaPageState extends State<ContaPage> {
                                       ),
                                       Container(
                                         alignment: Alignment.center,
-                                        height: 130,
+                                        height: 90,
                                         width: 148.3,
-                                        color:
-                                            Color(int.parse("0x" + conta.cor)),
+                                        decoration: BoxDecoration(
+                                            color: Color(
+                                                int.parse("0x" + conta.cor)),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(18),
+                                                bottomRight:
+                                                    Radius.circular(18))),
                                         child: Text(
                                           'R\$ ${formatarDinheiro(conta.saldoInicial)}',
                                           maxLines: 2,
@@ -96,11 +103,7 @@ class _ContaPageState extends State<ContaPage> {
                                                     .toDouble(),
                                             fontFamily: "Dosis",
                                             fontWeight: FontWeight.bold,
-                                            color: Color(int.parse("0xFF" +
-                                                (int.parse("0x" + conta.cor) ^
-                                                        0xFFFFFFFF)
-                                                    .toRadixString(16)
-                                                    .padLeft(6, "0"))),
+                                            color: eLight(conta.cor),
                                           ),
                                         ),
                                       )
@@ -121,5 +124,14 @@ class _ContaPageState extends State<ContaPage> {
   String formatarDinheiro(double preco) {
     var formato = NumberFormat("#,##0.00", "pt_BR");
     return formato.format(preco);
+  }
+
+  Color eLight(String hex) {
+    Color color = Color(int.parse("0xFF" + hex));
+    final double relativeLuminance = color.computeLuminance();
+    const double kThreshold = 0.15;
+    if ((relativeLuminance + 0.05) * (relativeLuminance + 0.05) > kThreshold)
+      return Colors.black;
+    return Colors.white;
   }
 }
