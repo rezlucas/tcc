@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:tcc/models/contamodel.dart';
 import 'package:tcc/repositories/contarepository.dart';
+import 'package:tcc/repositories/operacaorepository.dart';
 import 'package:tcc/screens/cadastros/contaform.dart';
 import 'package:tcc/screens/template.dart';
 
@@ -16,6 +17,7 @@ class ContaPage extends StatefulWidget {
 
 class _ContaPageState extends State<ContaPage> {
   ContaRepository _contaRepository = ContaRepository();
+  OperacaoRepository _operacaoRepository = OperacaoRepository();
 
   // var conta = _contaRepository.listarConta();
 
@@ -91,21 +93,44 @@ class _ContaPageState extends State<ContaPage> {
                                                 topRight: Radius.circular(18),
                                                 bottomRight:
                                                     Radius.circular(18))),
-                                        child: Text(
-                                          'R\$ ${formatarDinheiro(conta.saldoInicial)}',
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 30 -
-                                                conta.saldoInicial
-                                                    .toString()
-                                                    .length
-                                                    .toDouble(),
-                                            fontFamily: "Dosis",
-                                            fontWeight: FontWeight.bold,
-                                            color: eLight(conta.cor),
-                                          ),
-                                        ),
+                                        child: StreamBuilder(
+                                            stream:
+                                                _operacaoRepository.somarValor(
+                                                    saldoInicial:
+                                                        conta.saldoInicial,
+                                                    idConta:
+                                                        conta.documentId()),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Text(
+                                                  'R\$ ${formatarDinheiro(snapshot.data)}',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 30 -
+                                                        snapshot.data
+                                                            .toString()
+                                                            .length
+                                                            .toDouble(),
+                                                    fontFamily: "Dosis",
+                                                    fontWeight: FontWeight.bold,
+                                                    color: eLight(conta.cor),
+                                                  ),
+                                                );
+                                              }
+                                              return Text(
+                                                'R\$ 0,00',
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontFamily: "Dosis",
+                                                  fontWeight: FontWeight.bold,
+                                                  color: eLight(conta.cor),
+                                                ),
+                                              );
+                                            }),
                                       )
                                     ],
                                   ),

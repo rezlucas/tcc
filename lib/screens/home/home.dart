@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tcc/screens/cadastros/cartao.dart';
 import 'package:tcc/screens/cadastros/conta.dart';
 import 'package:tcc/screens/cadastros/operacao.dart';
+import 'package:tcc/repositories/operacaorepository.dart';
 import 'package:tcc/screens/cadastros/tipos.dart';
 import 'package:tcc/screens/template.dart';
 import 'package:tcc/services/auth.dart';
 import 'package:tcc/services/auth.dart';
 
 class Home extends StatelessWidget {
+  OperacaoRepository _operacaoRepository = OperacaoRepository();
+
   @override
   Widget build(BuildContext context) {
     return Template(
@@ -20,6 +25,59 @@ class Home extends StatelessWidget {
                 fit: BoxFit.cover)),
         child: Column(
           children: [
+            Container(
+              margin: EdgeInsets.only(top: 63, bottom: 65),
+              alignment: Alignment.center,
+              // color: Colors.black,
+              height: 130,
+              width: 180,
+              child: StreamBuilder<Object>(
+                  stream: _operacaoRepository.somarValor(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'R\$',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 45,
+                              fontFamily: "Dosis",
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFF76041),
+                            ),
+                          ),
+                          Text(
+                            '${formatarDinheiro(snapshot.data)}',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 35 -
+                                  snapshot.data.toString().length.toDouble(),
+                              fontFamily: "Dosis",
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF2B1D3D),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return Text(
+                      'R\$ 0,00',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: "Dosis",
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    );
+                  }),
+            ),
             buildCard(
               context: context,
               imagem: "lib/img/Card-Operacao.png",
@@ -42,6 +100,7 @@ class Home extends StatelessWidget {
               context: context,
               imagem: "lib/img/Card-Cartao.png",
               nomeCard: "Registrar novo Cartão",
+              pagina: Cartao(),
             ),
           ],
         ),
@@ -103,4 +162,9 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatarDinheiro(double preco) {
+  var formato = NumberFormat("#,##0.00", "pt_BR");
+  return formato.format(preco);
 }

@@ -31,6 +31,12 @@ class ContaRepository extends Disposable {
   //   });
   // }
 
+  Stream<double> somarValor() {
+    return _collection.snapshots().map((query) => query.documents
+        .map<ContaModel>((document) => ContaModel.fromMap(document))
+        .fold(0, (sum, element) => sum + element.saldoInicial));
+  }
+
   @override
   void dispose() {}
 }
