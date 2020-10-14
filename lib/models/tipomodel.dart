@@ -31,7 +31,7 @@ class TipoModel extends BaseModel {
     var map = new Map<String, dynamic>();
     map['descricao'] = this.descricao;
     map['idIcon'] = this.idIcon;
-    map['fontfamily'] = this.fontfamilyIcon;
+    map['fontfamilyIcon'] = this.fontfamilyIcon;
 
     return map;
   }

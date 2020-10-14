@@ -119,7 +119,7 @@ class _CadastrarContaState extends State<CadastrarConta> {
 
                       // child: const Text('Change me'),
                       color: currentColor,
-                      textColor: Colors.black),
+                      textColor: Color(0xFF2B1D3D)),
                 ],
               ),
               SizedBox(height: 20.0),

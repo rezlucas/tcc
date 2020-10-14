@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
   Widget buildCard(
       {String imagem, context, String nomeCard, StatefulWidget pagina}) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
       child: GestureDetector(
         onTap: () => Navigator.push(
           context,

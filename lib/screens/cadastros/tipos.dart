@@ -49,7 +49,12 @@ class _TiposPageState extends State<TiposPage> {
                         itemCount: snapshot.data.length,
                         shrinkWrap: true,
                         itemBuilder: (ctx, index) {
+                          debugPrint((snapshot.data[index] as TipoModel)
+                              .getIdIcon
+                              .toString());
                           return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)),
                             color: Color(0xFFFFFFFF),
                             child: Container(
                               padding: EdgeInsets.all(0),
@@ -75,12 +80,29 @@ class _TiposPageState extends State<TiposPage> {
                                     ),
                                   ),
                                   Container(
-                                    height: 80,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xFFF76041),
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(18),
+                                            bottomRight: Radius.circular(18))),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      // textColor: Color(0xFF2B1D3D),
+                                      children: [
+                                        Icon(IconData(
+                                            (snapshot.data[index] as TipoModel)
+                                                .getIdIcon,
+                                            fontFamily: (snapshot.data[index]
+                                                    as TipoModel)
+                                                .getfontfamilyIcon)),
+                                      ],
+                                    ),
+                                    height: 90,
                                     width: 69.5,
-                                    color: Color(int.parse("0x" +
-                                        (snapshot.data[index] as TipoModel)
-                                            .cor)),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

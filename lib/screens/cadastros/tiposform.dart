@@ -6,6 +6,7 @@ import 'package:tcc/screens/cadastros/tipos.dart';
 import 'package:tcc/screens/template.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:tcc/services/colorpicker.dart';
+import 'package:flutter_iconpicker/IconPicker/icons.dart';
 
 class CadastrarCategoria extends StatefulWidget {
   @override
@@ -18,11 +19,12 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
   TextEditingController _controlerDescricao = TextEditingController();
   void changeColor(Color color) => setState(() => currentColor = color);
   Icon _icon = Icon(IconData(58430, fontFamily: "MaterialIcons"));
+
   _pickIcon() async {
     debugPrint(_icon.icon.codePoint.toString());
     debugPrint(_icon.icon.fontFamily);
     IconData icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackMode: IconPack.cupertino);
+        iconPackMode: IconPack.material);
 
     _icon = Icon(icon);
     setState(() {});
@@ -30,10 +32,10 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
     debugPrint('Picked Icon:  $icon');
   }
 
-  String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
-      '${cor.red.toRadixString(16).padLeft(2, '0')}'
-      '${cor.green.toRadixString(16).padLeft(2, '0')}'
-      '${cor.blue.toRadixString(16).padLeft(2, '0')}';
+  // String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
+  //     '${cor.red.toRadixString(16).padLeft(2, '0')}'
+  //     '${cor.green.toRadixString(16).padLeft(2, '0')}'
+  //     '${cor.blue.toRadixString(16).padLeft(2, '0')}';
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +122,8 @@ class _CadastrarCategoriaState extends State<CadastrarCategoria> {
   salvarNoBanco() {
     TipoModel tipo = TipoModel();
     tipo.descricao = _controlerDescricao.text.toString();
-    tipo.cor = toHex(currentColor);
+    tipo.idIcon = _icon.icon.codePoint;
+    tipo.fontfamilyIcon = _icon.icon.fontFamily;
     _tipoRepository.add(tipo);
     Navigator.of(context).pop();
   }
