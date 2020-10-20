@@ -41,7 +41,7 @@ class OperacaoModel extends BaseModel {
     map['descricao'] = this.descricao;
     map['saldoInicial'] = this.saldoInicial;
     map['conta'] = this.conta;
-    map['contegoria'] = this.categoria;
+    map['categoria'] = this.categoria;
     map['tipoOperacao'] = this.tipoOperacao;
     map['data'] = this.data;
     map['hora'] = this.hora;

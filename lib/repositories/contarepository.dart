@@ -19,7 +19,10 @@ class ContaRepository extends Disposable {
   }
 
   Future<ContaModel> findById(String documentId) async {
-    var documento = await _collection.document(documentId).get();
+    var documento = await _collection
+        .document(documentId)
+        .get()
+        .catchError((e) => {print(e.message)});
     return ContaModel.fromMap(documento);
   }
   // void limpaBase() {

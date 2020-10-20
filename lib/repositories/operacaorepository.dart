@@ -22,7 +22,10 @@ class OperacaoRepository extends Disposable {
   }
 
   Future<OperacaoModel> findById(String documentId) async {
-    var documento = await _collection.document(documentId).get();
+    var documento = await _collection
+        .document(documentId)
+        .get()
+        .catchError(() => {print("Exc")});
     return OperacaoModel.fromMap(documento);
   }
 

@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
 
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {

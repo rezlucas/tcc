@@ -14,7 +14,11 @@ import 'package:tcc/services/colorpicker.dart';
 
 class CadastrarOperacao extends StatefulWidget {
   @override
-  _CadastrarOperacaoState createState() => _CadastrarOperacaoState();
+  _CadastrarOperacaoState createState({OperacaoModel operacao}) {
+    return operacao == null
+        ? _CadastrarOperacaoState()
+        : _CadastrarOperacaoState.editar(operacao);
+  }
 }
 
 class _CadastrarOperacaoState extends State<CadastrarOperacao> {
@@ -31,6 +35,25 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   DateTime _dateTime;
   final f = new DateFormat('dd/MM/yyyy');
   TimeOfDay _time;
+
+  _CadastrarOperacaoState();
+
+  _CadastrarOperacaoState.editar(this._operacaoEditar) {
+    _controlerDescricao.text = _operacaoEditar.descricao;
+    _controlerSaldo.text = _operacaoEditar.saldoInicial.toString();
+    preencherDados(_operacaoEditar);
+  }
+
+  void preencherDados(OperacaoModel operacao) async {
+    contaSelecionada = await conta.findById(operacao.conta);
+    categoriaSelecionada = await tipo.findById(operacao.categoria);
+    _dateTime = f.parse(operacao.data);
+    _time = TimeOfDay(
+        hour: int.parse(operacao.hora.split(":")[0]),
+        minute: int.parse(operacao.hora.split(":")[1]));
+  }
+
+  OperacaoModel _operacaoEditar;
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
