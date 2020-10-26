@@ -38,10 +38,10 @@ class _OperacaoPageState extends State<OperacaoPage> {
         color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600);
 
     final regularTextStyle = baseTextStyle.copyWith(
-        color: const Color(0xffb6b2df),
-        fontSize: 9.0,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 12);
+      color: const Color(0xffb6b2df),
+      fontSize: 9.0,
+      fontWeight: FontWeight.w400,
+    );
 
     final subHeaderTextStyle = regularTextStyle.copyWith(fontSize: 12.0);
     return Template(
@@ -141,23 +141,34 @@ class _OperacaoPageState extends State<OperacaoPage> {
                                                 }
                                                 if (snp.hasData &&
                                                     snp.data != null) {
-                                                  return Text(
-                                                      snp.data.descricao,
-                                                      style: Style
-                                                          .commonTextStyle);
+                                                  return Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(snp.data.descricao,
+                                                          style: Style
+                                                              .commonTextStyle),
+                                                      Container(
+                                                        margin: new EdgeInsets
+                                                                .symmetric(
+                                                            vertical: 8.0),
+                                                        height: 2.0,
+                                                        width: 18.0,
+                                                        color: new Color(
+                                                            int.parse("0xFF" +
+                                                                snp.data.cor)),
+                                                      ),
+                                                    ],
+                                                  );
                                                 }
                                                 return Text("Carregando",
                                                     style:
                                                         Style.commonTextStyle);
                                               },
                                             ),
-                                            Container(
-                                                margin:
-                                                    new EdgeInsets.symmetric(
-                                                        vertical: 8.0),
-                                                height: 2.0,
-                                                width: 18.0,
-                                                color: new Color(0xffffffff)),
                                             new Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -180,7 +191,7 @@ class _OperacaoPageState extends State<OperacaoPage> {
                                           ? new EdgeInsets.only(left: 46.0)
                                           : new EdgeInsets.only(top: 72.0),
                                       decoration: new BoxDecoration(
-                                        color: new Color(0xFF333366),
+                                        color: new Color(0xFF2B1D3D),
                                         shape: BoxShape.rectangle,
                                         borderRadius:
                                             new BorderRadius.circular(8.0),
@@ -233,18 +244,25 @@ class _OperacaoPageState extends State<OperacaoPage> {
                                                                       100)),
                                                       height: 92.0,
                                                       width: 92.0,
-                                                      child: Icon(IconData(
-                                                          (snpo.data
-                                                                  as TipoModel)
-                                                              .getIdIcon,
-                                                          fontFamily: (snpo.data
-                                                                  as TipoModel)
-                                                              .getfontfamilyIcon)),
+                                                      child: Icon(
+                                                          IconData(
+                                                              (snpo.data
+                                                                      as TipoModel)
+                                                                  .getIdIcon,
+                                                              fontFamily: (snpo
+                                                                          .data
+                                                                      as TipoModel)
+                                                                  .getfontfamilyIcon),
+                                                          color: eLight(
+                                                              snp.data.cor)),
                                                     );
                                                   }
-                                                  return Text("Carregando",
-                                                      style: Style
-                                                          .commonTextStyle);
+                                                  return Container(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                    height: 92,
+                                                    width: 92,
+                                                  );
                                                 },
                                               );
                                             }
@@ -253,7 +271,6 @@ class _OperacaoPageState extends State<OperacaoPage> {
                                                   CircularProgressIndicator(),
                                               height: 92,
                                               width: 92,
-                                              color: Color(0xFF2B1D3D),
                                             );
                                           },
                                         ),
@@ -463,7 +480,11 @@ class _OperacaoPageState extends State<OperacaoPage> {
 
   void onClickMenu(MenuItemProvider item, OperacaoModel operacaoModel) {
     if (item.menuTitle == 'Editar') {
-      print('Editando ${operacaoModel.descricao}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CadastrarOperacao.editar(operacaoModel)),
+      );
     }
     if (item.menuTitle == 'Excluir') {
       print('Excluindo ${operacaoModel.descricao}');
@@ -495,18 +516,18 @@ class Style {
     fontSize: 9.0,
   );
   static final commonTextStyle = baseTextStyle.copyWith(
-      color: const Color(0xffb6b2df),
-      fontSize: 14.0,
-      fontWeight: FontWeight.w400,
-      letterSpacing: 12);
+    color: const Color(0xffb6b2df),
+    fontSize: 14.0,
+    fontWeight: FontWeight.w400,
+  );
   static final titleTextStyle = baseTextStyle.copyWith(
-      color: Colors.white,
-      fontSize: 18.0,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 12);
+    color: Colors.white,
+    fontSize: 18.0,
+    fontWeight: FontWeight.w600,
+  );
   static final headerTextStyle = baseTextStyle.copyWith(
-      color: Colors.white,
-      fontSize: 20.0,
-      fontWeight: FontWeight.w400,
-      letterSpacing: 12);
+    color: Colors.white,
+    fontSize: 20.0,
+    fontWeight: FontWeight.w400,
+  );
 }

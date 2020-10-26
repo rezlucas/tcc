@@ -16,9 +16,13 @@ class OperacaoRepository extends Disposable {
   void delete(String documentId) => _collection.document(documentId).delete();
 
   Stream<List<OperacaoModel>> listarOperacoes() {
-    return _collection.snapshots().map((query) => query.documents
-        .map<OperacaoModel>((document) => OperacaoModel.fromMap(document))
-        .toList());
+    return _collection.snapshots().map((query) {
+      var lista = query.documents
+          .map<OperacaoModel>((document) => OperacaoModel.fromMap(document))
+          .toList();
+      lista.sort((x, y) => x.descricao.compareTo(y.descricao));
+      return lista;
+    });
   }
 
   Future<OperacaoModel> findById(String documentId) async {

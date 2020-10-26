@@ -14,11 +14,15 @@ import 'package:tcc/services/colorpicker.dart';
 
 class CadastrarOperacao extends StatefulWidget {
   @override
-  _CadastrarOperacaoState createState({OperacaoModel operacao}) {
+  _CadastrarOperacaoState createState() {
     return operacao == null
         ? _CadastrarOperacaoState()
         : _CadastrarOperacaoState.editar(operacao);
   }
+
+  OperacaoModel operacao;
+  CadastrarOperacao();
+  CadastrarOperacao.editar(this.operacao);
 }
 
 class _CadastrarOperacaoState extends State<CadastrarOperacao> {
@@ -38,19 +42,30 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
 
   _CadastrarOperacaoState();
 
-  _CadastrarOperacaoState.editar(this._operacaoEditar) {
-    _controlerDescricao.text = _operacaoEditar.descricao;
-    _controlerSaldo.text = _operacaoEditar.saldoInicial.toString();
-    preencherDados(_operacaoEditar);
+  _CadastrarOperacaoState.editar(this._operacaoEditar) {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      preencherDados(_operacaoEditar);
+    });
+
+    // preencherDados(_operacaoEditar);
   }
 
   void preencherDados(OperacaoModel operacao) async {
     contaSelecionada = await conta.findById(operacao.conta);
     categoriaSelecionada = await tipo.findById(operacao.categoria);
-    _dateTime = f.parse(operacao.data);
-    _time = TimeOfDay(
-        hour: int.parse(operacao.hora.split(":")[0]),
-        minute: int.parse(operacao.hora.split(":")[1]));
+    setState(() {
+      _dateTime = f.parse(operacao.data);
+      _time = TimeOfDay(
+          hour: int.parse(operacao.hora.split(":")[0]),
+          minute: int.parse(operacao.hora.split(":")[1]));
+      _controlerDescricao.text = _operacaoEditar.descricao;
+      _controlerSaldo.text = _operacaoEditar.saldoInicial.toString();
+    });
   }
 
   OperacaoModel _operacaoEditar;
@@ -405,7 +420,7 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                         height: 20,
                       ),
                       Text(
-                        '  Incluir',
+                        _operacaoEditar == null ? '  Incluir' : '  Editar',
                         style: TextStyle(color: Color(0xFF2B1D3D)),
                       ),
                     ],
@@ -420,15 +435,28 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   }
 
   salvarNoBanco() {
-    OperacaoModel operacao = OperacaoModel();
-    operacao.data = f.format(_dateTime);
-    operacao.hora = _time.format(context);
-    operacao.descricao = _controlerDescricao.text.toString();
-    operacao.tipoOperacao = tipoOperacao;
-    operacao.conta = contaSelecionada.documentId();
-    operacao.categoria = categoriaSelecionada.documentId();
-    operacao.saldoInicial = double.parse(_controlerSaldo.text.toString());
-    _operacaoRepository.add(operacao);
-    Navigator.of(context).pop();
+    if (_operacaoEditar == null) {
+      OperacaoModel operacao = OperacaoModel();
+      operacao.data = f.format(_dateTime);
+      operacao.hora = _time.format(context);
+      operacao.descricao = _controlerDescricao.text.toString();
+      operacao.tipoOperacao = tipoOperacao;
+      operacao.conta = contaSelecionada.documentId();
+      operacao.categoria = categoriaSelecionada.documentId();
+      operacao.saldoInicial = double.parse(_controlerSaldo.text.toString());
+      _operacaoRepository.add(operacao);
+      Navigator.of(context).pop();
+    } else {
+      _operacaoEditar.data = f.format(_dateTime);
+      _operacaoEditar.hora = _time.format(context);
+      _operacaoEditar.descricao = _controlerDescricao.text.toString();
+      _operacaoEditar.tipoOperacao = tipoOperacao;
+      _operacaoEditar.conta = contaSelecionada.documentId();
+      _operacaoEditar.categoria = categoriaSelecionada.documentId();
+      _operacaoEditar.saldoInicial =
+          double.parse(_controlerSaldo.text.toString());
+      _operacaoRepository.update(_operacaoEditar.documentId(), _operacaoEditar);
+      Navigator.of(context).pop();
+    }
   }
 }
