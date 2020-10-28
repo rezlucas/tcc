@@ -10,11 +10,19 @@ import 'package:tcc/services/colorpicker.dart';
 
 class CadastrarConta extends StatefulWidget {
   @override
-  _CadastrarContaState createState() => _CadastrarContaState();
+  _CadastrarContaState createState() {
+    return conta == null
+        ? _CadastrarContaState()
+        : _CadastrarContaState.editar(conta);
+  }
+
+  ContaModel conta;
+  CadastrarConta();
+  CadastrarConta.editar(this.conta);
 }
 
 class _CadastrarContaState extends State<CadastrarConta> {
-  Color currentColor = Colors.limeAccent;
+  Color currentColor = Color(0xFFF76041);
   ContaRepository _contaRepository = ContaRepository();
   TextEditingController _controlerDescricao = TextEditingController();
   TextEditingController _controlerSaldo = TextEditingController();
@@ -24,6 +32,32 @@ class _CadastrarContaState extends State<CadastrarConta> {
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
       '${cor.green.toRadixString(16).padLeft(2, '0')}'
       '${cor.blue.toRadixString(16).padLeft(2, '0')}';
+
+  _CadastrarContaState();
+
+  _CadastrarContaState.editar(this._contaEditar) {}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      preencherDados(_contaEditar);
+    });
+
+    // preencherDados(_operacaoEditar);
+  }
+
+  void preencherDados(ContaModel operacao) async {
+    setState(() {
+      _controlerDescricao.text = _contaEditar.descricao;
+      _controlerSaldo.text = _contaEditar.saldoInicial.toString();
+      currentColor = Color(int.parse("0xFF" + _contaEditar.cor));
+    });
+  }
+
+  ContaModel _contaEditar;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +71,21 @@ class _CadastrarContaState extends State<CadastrarConta> {
                 fit: BoxFit.cover)),
         padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: ListView(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               TextFormField(
                 style: TextStyle(color: Color(0xFF2B1D3D)),
                 controller: _controlerDescricao,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Preencha o nome da conta";
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
-                    hintText: 'Descrição',
+                    hintText: 'Conta',
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFFF76041)),
                     ),
@@ -59,6 +100,12 @@ class _CadastrarContaState extends State<CadastrarConta> {
               TextFormField(
                 style: TextStyle(color: Color(0xFF2B1D3D)),
                 controller: _controlerSaldo,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Preencha o saldo";
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     hintText: 'Saldo Inicial',
@@ -111,10 +158,7 @@ class _CadastrarContaState extends State<CadastrarConta> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.colorize),
-                          Text(" Escolha uma cor")
-                        ],
+                        children: [Icon(Icons.colorize), Text(" Cor")],
                       ),
 
                       // child: const Text('Change me'),
@@ -138,7 +182,7 @@ class _CadastrarContaState extends State<CadastrarConta> {
                         height: 20,
                       ),
                       Text(
-                        '  Incluir',
+                        _contaEditar == null ? '  Incluir' : '  Editar',
                         style: TextStyle(color: Color(0xFF2B1D3D)),
                       ),
                     ],
@@ -153,11 +197,22 @@ class _CadastrarContaState extends State<CadastrarConta> {
   }
 
   salvarNoBanco() {
-    ContaModel conta = ContaModel();
-    conta.descricao = _controlerDescricao.text.toString();
-    conta.cor = toHex(currentColor);
-    conta.saldoInicial = double.parse(_controlerSaldo.text.toString());
-    _contaRepository.add(conta);
-    Navigator.of(context).pop();
+    if (_formKey.currentState.validate()) {
+      if (_contaEditar == null) {
+        ContaModel conta = ContaModel();
+        conta.descricao = _controlerDescricao.text.toString();
+        conta.cor = toHex(currentColor);
+        conta.saldoInicial = double.parse(_controlerSaldo.text.toString());
+        _contaRepository.add(conta);
+        Navigator.of(context).pop();
+      } else {
+        _contaEditar.descricao = _controlerDescricao.text.toString();
+        _contaEditar.cor = toHex(currentColor);
+        _contaEditar.saldoInicial =
+            double.parse(_controlerSaldo.text.toString());
+        _contaRepository.update(_contaEditar.documentId(), _contaEditar);
+        Navigator.of(context).pop();
+      }
+    }
   }
 }

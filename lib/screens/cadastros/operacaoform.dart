@@ -69,6 +69,7 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   }
 
   OperacaoModel _operacaoEditar;
+  final _formKey = GlobalKey<FormState>();
 
   String toHex(Color cor) => '${cor.alpha.toRadixString(16).padLeft(2, '0')}'
       '${cor.red.toRadixString(16).padLeft(2, '0')}'
@@ -87,12 +88,19 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                 fit: BoxFit.cover)),
         padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: ListView(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               TextFormField(
                 style: TextStyle(color: Color(0xFF2B1D3D)),
                 controller: _controlerDescricao,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Preencha o nome da operação";
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                     hintText: 'Descrição',
                     enabledBorder: UnderlineInputBorder(
@@ -109,6 +117,12 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
               TextFormField(
                 style: TextStyle(color: Color(0xFF2B1D3D)),
                 controller: _controlerSaldo,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Preencha o saldo";
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     hintText: 'Valor',
@@ -163,244 +177,206 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
                 ],
               ),
               SizedBox(height: 10.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Selecione uma data:",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showDatePicker(
-                                  context: context,
-                                  initialDate: _dateTime == null
-                                      ? DateTime.now()
-                                      : _dateTime,
-                                  firstDate: DateTime(2001),
-                                  lastDate: DateTime(2021))
-                              .then((date) {
-                            setState(() {
-                              _dateTime = date;
-                            });
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                  width: 1.0, color: Color(0xFFF76041)),
-                            ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Data:",
+                            style: TextStyle(color: Colors.black),
                           ),
-                          child: Text(
-                              _dateTime == null ? "" : f.format(_dateTime),
-                              style: TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Selecione uma hora:",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          showTimePicker(
-                            context: context,
-                            initialTime:
-                                _time == null ? TimeOfDay.now() : _time,
-                          ).then((time) {
-                            setState(() {
-                              _time = time;
-                            });
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                  width: 1.0, color: Color(0xFFF76041)),
-                            ),
-                          ),
-                          child: Text(
-                              _time == null ? "" : _time.format(context),
-                              style: TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.0),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   // crossAxisAlignment: CrossAxisAlignment.center,
-              //   crossAxisAlignment: CrossAxisAlignment.stretch,
-              //   children: [
-              //     StreamBuilder(
-              //       stream: conta.listarContas(),
-              //       builder: (context, snapshot) {
-              //         return !snapshot.hasData
-              //             ? Text("Carregando")
-              //             : DropdownButton<ContaModel>(
-              //                 isDense: true,
-              //                 value: contaSelecionada,
-              //                 focusColor: Colors.blue,
-              //                 icon: Icon(Icons.arrow_drop_down),
-              //                 iconEnabledColor: Color(0xFF2B1D3D),
-              //                 iconSize: 24,
-              //                 elevation: 16,
-              //                 dropdownColor: Color(0xFF2B1D3D),
-              //                 style: TextStyle(color: Color(0xFFF76041)),
-              //                 underline: Container(
-              //                   height: 1,
-              //                   color: Color(0xFFF76041),
-              //                 ),
-              //                 onChanged: (ContaModel newValue) {
-              //                   setState(() {
-              //                     contaSelecionada = newValue;
-              //                   });
-              //                 },
-              //                 items: snapshot.data
-              //                     .map<DropdownMenuItem<ContaModel>>(
-              //                         (ContaModel item) {
-              //                   return DropdownMenuItem<ContaModel>(
-              //                     child: Text(item.descricao),
-              //                     value: item,
-              //                   );
-              //                 }).toList(),
-              //               );
-              //       },
-              //     ),
-              //   ],
-              // ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Selecione uma conta:",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      StreamBuilder(
-                        stream: conta.listarContas(),
-                        builder: (context, snapshot) {
-                          return !snapshot.hasData
-                              ? Text("Carregando")
-                              : DropdownButton<ContaModel>(
-                                  isDense: true,
-                                  value: contaSelecionada,
-                                  focusColor: Colors.blue,
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  iconEnabledColor: Color(0xFF2B1D3D),
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  dropdownColor: Color(0xFF2B1D3D),
-                                  style: TextStyle(color: Color(0xFFF76041)),
-                                  underline: Container(
-                                    height: 1,
-                                    color: Color(0xFFF76041),
+                          Container(
+                            width: 100,
+                            child: GestureDetector(
+                              onTap: () {
+                                showDatePicker(
+                                        context: context,
+                                        initialDate: _dateTime == null
+                                            ? DateTime.now()
+                                            : _dateTime,
+                                        firstDate: DateTime(2001),
+                                        lastDate: DateTime(2021))
+                                    .then((date) {
+                                  setState(() {
+                                    _dateTime = date;
+                                  });
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0, color: Color(0xFFF76041)),
                                   ),
-                                  onChanged: (ContaModel newValue) {
-                                    setState(() {
-                                      contaSelecionada = newValue;
-                                    });
-                                  },
-                                  items: snapshot.data
-                                      .map<DropdownMenuItem<ContaModel>>(
-                                          (ContaModel item) {
-                                    return DropdownMenuItem<ContaModel>(
-                                      child: Text(item.descricao),
-                                      value: item,
-                                    );
-                                  }).toList(),
-                                );
-                        },
+                                ),
+                                child: Text(
+                                    _dateTime == null
+                                        ? ""
+                                        : f.format(_dateTime),
+                                    style: TextStyle(color: Colors.red),
+                                    textAlign: TextAlign.center),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Hora:",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Container(
+                            width: 100,
+                            child: GestureDetector(
+                              onTap: () {
+                                showTimePicker(
+                                  context: context,
+                                  initialTime:
+                                      _time == null ? TimeOfDay.now() : _time,
+                                ).then((time) {
+                                  setState(() {
+                                    _time = time;
+                                  });
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                        width: 1.0, color: Color(0xFFF76041)),
+                                  ),
+                                ),
+                                child: Text(
+                                    _time == null ? "" : _time.format(context),
+                                    style: TextStyle(color: Colors.red),
+                                    textAlign: TextAlign.center),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  StreamBuilder(
+                    stream: conta.listarContas(),
+                    builder: (context, snapshot) {
+                      return !snapshot.hasData
+                          ? Text("Carregando")
+                          : DropdownButton<ContaModel>(
+                              hint: Text(
+                                "Conta",
+                                style: TextStyle(color: Color(0xFF2B1D3D)),
+                              ),
+                              isDense: true,
+                              value: contaSelecionada,
+                              focusColor: Colors.blue,
+                              icon: Icon(Icons.arrow_drop_down),
+                              isExpanded: true,
+                              iconEnabledColor: Color(0xFF2B1D3D),
+                              iconSize: 24,
+                              elevation: 16,
+                              dropdownColor: Color(0xFF2B1D3D),
+                              style: TextStyle(color: Color(0xFFF76041)),
+                              underline: Container(
+                                height: 1,
+                                color: Color(0xFFF76041),
+                              ),
+                              onChanged: (ContaModel newValue) {
+                                setState(() {
+                                  contaSelecionada = newValue;
+                                });
+                              },
+                              items: snapshot.data
+                                  .map<DropdownMenuItem<ContaModel>>(
+                                      (ContaModel item) {
+                                return DropdownMenuItem<ContaModel>(
+                                  child: Text(item.descricao),
+                                  value: item,
+                                );
+                              }).toList(),
+                            );
+                    },
                   ),
                 ],
               ),
               SizedBox(height: 25.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Selecione uma categoria:",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      StreamBuilder(
-                        stream: tipo.listarTipos(),
-                        builder: (context, snapshot) {
-                          return !snapshot.hasData
-                              ? Text("Carregando")
-                              : DropdownButton<TipoModel>(
-                                  isDense: true,
-                                  value: categoriaSelecionada,
-                                  focusColor: Colors.blue,
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  iconEnabledColor: Color(0xFF2B1D3D),
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  dropdownColor: Color(0xFF2B1D3D),
-                                  style: TextStyle(color: Color(0xFFF76041)),
-                                  underline: Container(
-                                    height: 1,
-                                    color: Color(0xFFF76041),
-                                  ),
-                                  onChanged: (TipoModel newValue) {
-                                    setState(() {
-                                      categoriaSelecionada = newValue;
-                                      // dropdownValue = newValue;
-                                      // var newDatabase = DatabaseModel();
-                                      // newDatabase.host = "NOVO2";
-                                      // newDatabase.name = newValue;
-                                      // newDatabase.port = 1521;
-                                      // newDatabase.user = "NOVO2";
-                                      // newDatabase.serviceName = "NOVO2";
+                  StreamBuilder(
+                    stream: tipo.listarTipos(),
+                    builder: (context, snapshot) {
+                      return !snapshot.hasData
+                          ? Text("Carregando")
+                          : DropdownButton<TipoModel>(
+                              hint: Text(
+                                "Categoria",
+                                style: TextStyle(color: Color(0xFF2B1D3D)),
+                              ),
+                              isDense: true,
+                              value: categoriaSelecionada,
+                              focusColor: Colors.blue,
+                              icon: Icon(Icons.arrow_drop_down),
+                              isExpanded: true,
+                              iconEnabledColor: Color(0xFF2B1D3D),
+                              iconSize: 24,
+                              elevation: 16,
+                              dropdownColor: Color(0xFF2B1D3D),
+                              style: TextStyle(color: Color(0xFFF76041)),
+                              underline: Container(
+                                height: 1,
+                                color: Color(0xFFF76041),
+                              ),
+                              onChanged: (TipoModel newValue) {
+                                setState(() {
+                                  categoriaSelecionada = newValue;
+                                  // dropdownValue = newValue;
+                                  // var newDatabase = DatabaseModel();
+                                  // newDatabase.host = "NOVO2";
+                                  // newDatabase.name = newValue;
+                                  // newDatabase.port = 1521;
+                                  // newDatabase.user = "NOVO2";
+                                  // newDatabase.serviceName = "NOVO2";
 
-                                      // GlobalVariables.database = newDatabase;
-                                      // GlobalVariables.storeState
-                                      //     .dispatch(gv.Actions.SwitchDatabase);
-                                    });
-                                  },
-                                  items: snapshot.data
-                                      .map<DropdownMenuItem<TipoModel>>(
-                                          (TipoModel item) {
-                                    return DropdownMenuItem<TipoModel>(
-                                      child: Text(item.descricao),
-                                      value: item,
-                                    );
-                                  }).toList(),
+                                  // GlobalVariables.database = newDatabase;
+                                  // GlobalVariables.storeState
+                                  //     .dispatch(gv.Actions.SwitchDatabase);
+                                });
+                              },
+                              items: snapshot.data
+                                  .map<DropdownMenuItem<TipoModel>>(
+                                      (TipoModel item) {
+                                return DropdownMenuItem<TipoModel>(
+                                  child: Text(item.descricao),
+                                  value: item,
                                 );
-                        },
-                      ),
-                    ],
+                              }).toList(),
+                            );
+                    },
                   ),
                 ],
               ),
@@ -435,28 +411,31 @@ class _CadastrarOperacaoState extends State<CadastrarOperacao> {
   }
 
   salvarNoBanco() {
-    if (_operacaoEditar == null) {
-      OperacaoModel operacao = OperacaoModel();
-      operacao.data = f.format(_dateTime);
-      operacao.hora = _time.format(context);
-      operacao.descricao = _controlerDescricao.text.toString();
-      operacao.tipoOperacao = tipoOperacao;
-      operacao.conta = contaSelecionada.documentId();
-      operacao.categoria = categoriaSelecionada.documentId();
-      operacao.saldoInicial = double.parse(_controlerSaldo.text.toString());
-      _operacaoRepository.add(operacao);
-      Navigator.of(context).pop();
-    } else {
-      _operacaoEditar.data = f.format(_dateTime);
-      _operacaoEditar.hora = _time.format(context);
-      _operacaoEditar.descricao = _controlerDescricao.text.toString();
-      _operacaoEditar.tipoOperacao = tipoOperacao;
-      _operacaoEditar.conta = contaSelecionada.documentId();
-      _operacaoEditar.categoria = categoriaSelecionada.documentId();
-      _operacaoEditar.saldoInicial =
-          double.parse(_controlerSaldo.text.toString());
-      _operacaoRepository.update(_operacaoEditar.documentId(), _operacaoEditar);
-      Navigator.of(context).pop();
+    if (_formKey.currentState.validate()) {
+      if (_operacaoEditar == null) {
+        OperacaoModel operacao = OperacaoModel();
+        operacao.data = f.format(_dateTime);
+        operacao.hora = _time.format(context);
+        operacao.descricao = _controlerDescricao.text.toString();
+        operacao.tipoOperacao = tipoOperacao;
+        operacao.conta = contaSelecionada.documentId();
+        operacao.categoria = categoriaSelecionada.documentId();
+        operacao.saldoInicial = double.parse(_controlerSaldo.text.toString());
+        _operacaoRepository.add(operacao);
+        Navigator.of(context).pop();
+      } else {
+        _operacaoEditar.data = f.format(_dateTime);
+        _operacaoEditar.hora = _time.format(context);
+        _operacaoEditar.descricao = _controlerDescricao.text.toString();
+        _operacaoEditar.tipoOperacao = tipoOperacao;
+        _operacaoEditar.conta = contaSelecionada.documentId();
+        _operacaoEditar.categoria = categoriaSelecionada.documentId();
+        _operacaoEditar.saldoInicial =
+            double.parse(_controlerSaldo.text.toString());
+        _operacaoRepository.update(
+            _operacaoEditar.documentId(), _operacaoEditar);
+        Navigator.of(context).pop();
+      }
     }
   }
 }

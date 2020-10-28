@@ -181,88 +181,6 @@ class _ContaPageState extends State<ContaPage> {
                                   ],
                                 ),
                               );
-                              // Card(
-                              //   shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(18)),
-                              //   color: Color(0xFFFFFFFF),
-                              //   child: Container(
-                              //     padding: EdgeInsets.all(0),
-                              //     child: Row(
-                              //       crossAxisAlignment:
-                              //           CrossAxisAlignment.center,
-                              //       // mainAxisAlignment: MainAxisAlignment.center,
-                              //       children: [
-                              //         Container(
-                              //           alignment: Alignment.center,
-                              //           width:
-                              //               MediaQuery.of(context).size.width *
-                              //                   .5,
-                              //           // height: 91,
-                              //           child: Text(
-                              //             conta.descricao,
-                              //             maxLines: 2,
-                              //             overflow: TextOverflow.ellipsis,
-                              //             style: TextStyle(
-                              //                 fontSize: 20,
-                              //                 fontFamily: "Dosis",
-                              //                 fontWeight: FontWeight.bold,
-                              //                 color: Color(0xFF2B1D3D)),
-                              //           ),
-                              //         ),
-                              //         Container(
-                              //           alignment: Alignment.center,
-                              //           height: 90,
-                              //           width: 148.3,
-                              //           decoration: BoxDecoration(
-                              //               color: Color(
-                              //                   int.parse("0x" + conta.cor)),
-                              //               borderRadius: BorderRadius.only(
-                              //                   topRight: Radius.circular(18),
-                              //                   bottomRight:
-                              //                       Radius.circular(18))),
-                              // child: StreamBuilder(
-                              //     stream:
-                              //         _operacaoRepository.somarValor(
-                              //             saldoInicial:
-                              //                 conta.saldoInicial,
-                              //             idConta:
-                              //                 conta.documentId()),
-                              //     builder: (context, snapshot) {
-                              //       if (snapshot.hasData) {
-                              //         return Text(
-                              //           'R\$ ${formatarDinheiro(snapshot.data)}',
-                              //           maxLines: 2,
-                              //           overflow:
-                              //               TextOverflow.ellipsis,
-                              //           style: TextStyle(
-                              //             fontSize: 30 -
-                              //                 snapshot.data
-                              //                     .toString()
-                              //                     .length
-                              //                     .toDouble(),
-                              //             fontFamily: "Dosis",
-                              //             fontWeight: FontWeight.bold,
-                              //             color: eLight(conta.cor),
-                              //           ),
-                              //         );
-                              //       }
-                              //       return Text(
-                              //         'R\$ 0,00',
-                              //         maxLines: 2,
-                              //         overflow: TextOverflow.ellipsis,
-                              //         style: TextStyle(
-                              //           fontSize: 30,
-                              //           fontFamily: "Dosis",
-                              //           fontWeight: FontWeight.bold,
-                              //           color: eLight(conta.cor),
-                              //         ),
-                              //       );
-                              //     }),
-                              //         )
-                              //       ],
-                              //     ),
-                              //   ),
-                              // );
                             },
                           ),
                         ),
@@ -316,7 +234,11 @@ class _ContaPageState extends State<ContaPage> {
 
   void onClickMenu(MenuItemProvider item, ContaModel contaModel) {
     if (item.menuTitle == 'Editar') {
-      print('Editando ${contaModel.descricao}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CadastrarConta.editar(contaModel)),
+      );
     }
     if (item.menuTitle == 'Excluir') {
       print('Excluindo ${contaModel.descricao}');
