@@ -122,7 +122,7 @@ class Home extends StatelessWidget {
             Container(
               child: Container(
                 margin: new EdgeInsets.fromLTRB(
-                    true ? 76.0 : 16.0, true ? 06.0 : 42.0, 16.0, 16.0),
+                    true ? 55.0 : 16.0, true ? 06.0 : 42.0, 16.0, 16.0),
                 // constraints: new BoxConstraints.expand(),
                 child: new Column(
                   crossAxisAlignment: true
@@ -133,23 +133,45 @@ class Home extends StatelessWidget {
                     new Container(height: 4.0),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          nomeCard,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w300,
-                          ),
+                        RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                              style: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFFF76041),
+                              ),
+                              text: nomeCard.substring(0, 1),
+                            ),
+                            TextSpan(
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w300,
+                                color: Color(0xFFF76041),
+                                letterSpacing: 0.8,
+                              ),
+                              text: nomeCard.substring(1),
+                            )
+                          ]),
                         ),
+                        // Text(
+                        //   nomeCard,
+                        //   style: TextStyle(
+                        //     fontSize: 30.0,
+                        //     fontWeight: FontWeight.w300,
+                        //     color: Color(0xFFF76041),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
                 ),
               ),
-              height: true ? 100.0 : 154.0,
+              height: true ? 130.0 : 154.0,
               margin: true
-                  ? new EdgeInsets.only(left: 40.0)
+                  ? new EdgeInsets.only(left: 55.0)
                   : new EdgeInsets.only(top: 72.0),
               decoration: new BoxDecoration(
                 color: new Color(0xFF2B1D3D),
@@ -181,8 +203,8 @@ class Home extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Color(0xFFF76041),
                       borderRadius: BorderRadius.circular(100)),
-                  height: 92.0,
-                  width: 92.0,
+                  height: 120.0,
+                  width: 120.0,
                 ),
               ),
             ),
@@ -201,7 +223,7 @@ class Home extends StatelessWidget {
         child: Container(
           child: new FittedBox(
             child: Material(
-                color: Color(0xFF2B1D3D),
+                color: Color(0xFFF76041),
                 elevation: 14.0,
                 borderRadius: BorderRadius.circular(24.0),
                 shadowColor: Color(0x802196F3),
@@ -224,7 +246,7 @@ class Home extends StatelessWidget {
                                     fontSize: 20,
                                     fontFamily: "Dosis",
                                     // fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: Color(0xFFF76041)),
                               ),
                             ),
                             Image(
